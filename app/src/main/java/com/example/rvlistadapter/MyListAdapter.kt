@@ -56,7 +56,6 @@ class MyListAdapter: RecyclerView.Adapter<MyListAdapter.ViewHolder>() {
                 val newItems = mutableListOf<DummyData>()
                 newItems.addAll(items)
                 newItems.removeAt(position)
-                notifyItemRangeRemoved(position, 1)
                 update(ArrayList(newItems))
             }
         }
