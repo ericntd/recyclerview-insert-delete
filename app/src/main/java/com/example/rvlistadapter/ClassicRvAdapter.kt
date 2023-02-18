@@ -39,7 +39,7 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         holder.bind(item, listener)
     }
 
-    fun init(arrayList: List<DummyData>) {
+    fun updateAll(arrayList: List<DummyData>) {
         items.clear()
         items.addAll(arrayList)
         notifyDataSetChanged()
@@ -58,6 +58,7 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         /*
         Trigger onBindViewHolder for X number of items in the list
         X needs to be larger the number of items visible on screen
+        When it's in the order of hundreds, ANRs happen with quick adds
          */
         val numToReRender = 9
         notifyItemRangeChanged(randomIndex, numToReRender)

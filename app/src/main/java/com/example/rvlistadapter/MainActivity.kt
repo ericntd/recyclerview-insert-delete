@@ -8,11 +8,19 @@ import java.util.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+    /**
+     * 3 options
+     * - [ClassicRvAdapter]
+     * - [MyListAdapterDiffUtil]: classic RecyclerView Adapter with DiffUtil
+     * - [MyListAdapter]: Jetpack's RecyclerView with built-in DiffUtil and data encapsulation
+     */
+    private val adapter by lazy {
+        ClassicRvAdapter()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = MyListAdapterDiffUtil()
         findViewById<RecyclerView>(R.id.list).adapter = adapter
 
         val max = 5
