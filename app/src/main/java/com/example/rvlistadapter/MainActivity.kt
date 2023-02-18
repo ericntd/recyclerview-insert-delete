@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
+import kotlin.math.min
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -15,8 +16,12 @@ class MainActivity : AppCompatActivity() {
      * - [MyListAdapter]: Jetpack's RecyclerView Adapter with built-in DiffUtil and data encapsulation
      */
     private val adapter by lazy {
-        MyListAdapter()
+        ClassicRvAdapter()
     }
+
+    /**
+     * Must be smaller than size of [DB.countries]
+     */
     private val numItems = 3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +29,19 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<RecyclerView>(R.id.list).adapter = adapter
 
-        val data = (0 until numItems).map {
-            DummyData(it, UUID.randomUUID().toString().replace("-", " "))
-        }
+        /*
+        Initialize list view with numItems random subset of countries
+         */
+        val randomStart = Random.nextInt(DB.countries.size)
+        val end = min(randomStart + numItems, DB.countries.size-1)
+        val data = DB.countries.mapIndexed { index: Int, s: String ->
+            DummyData(id = index, content = s)
+        }.subList(randomStart, end)
         adapter.updateAll(data)
 
+        /*
+        Add random UUID string, there should be no chance of duplication
+         */
         findViewById<View>(R.id.add).setOnClickListener {
             val randomIndex = if (adapter.itemCount>0) {
                 Random.nextInt(adapter.itemCount)
