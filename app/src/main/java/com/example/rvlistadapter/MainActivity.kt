@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
      * - [MyListAdapter]: Jetpack's RecyclerView Adapter with built-in DiffUtil and data encapsulation
      */
     private val adapter by lazy {
-        MyListAdapter()
+        ClassicRvAdapter()
     }
     private val numItems = 100
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             val randomIndex = Random.nextInt(adapter.itemCount)
             adapter.add(
                 DummyData(
-                    numItems + Random.nextInt(numItems),
+                    id = numItems + Random.nextInt(numItems),
                     UUID.randomUUID().toString().replace("-", " ")
                 ),
                 position = randomIndex

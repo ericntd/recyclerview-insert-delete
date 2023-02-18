@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RV List Adapter</string>
+    <string name="rank">Rank No. %d</string>
 </resources>
