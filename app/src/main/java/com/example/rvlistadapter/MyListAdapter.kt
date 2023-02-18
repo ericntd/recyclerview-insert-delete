@@ -43,18 +43,17 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
                 val newItems = mutableListOf<DummyData>()
                 newItems.addAll(currentList)
                 newItems.removeAt(position)
-                val changedCount = itemCount - 1 - position
-                update(ArrayList(newItems))
+                val changedCount = itemCount - position
+                submitList(newItems)
                 Log.d(tag, "number of item changed position: $changedCount")
                 // Trigger onBindViewHolder for the rest of the items that moved in front
-//                 notifyItemRangeChanged(position, 10000)
-                notifyItemChanged(position)
+                 notifyItemRangeChanged(position, changedCount)
             }
         }
         holder.bind(item, listener)
     }
 
-    fun update(newList: List<DummyData>) {
+    fun updateAll(newList: List<DummyData>) {
         submitList(newList)
     }
 
@@ -64,7 +63,7 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
         val randomIndex = Random.nextInt(0, itemCount)
         newItems.add(randomIndex, dummyData)
         val changedCount = itemCount - randomIndex + 1
-        update(ArrayList(newItems))
+        submitList(newItems)
         Log.d(tag, "adding item ${dummyData.content} to position $randomIndex - number of items changed: $changedCount")
         // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
         notifyItemRangeChanged(randomIndex, changedCount)
