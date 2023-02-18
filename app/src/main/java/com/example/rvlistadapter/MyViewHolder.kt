@@ -8,8 +8,7 @@ class MyViewHolder(private val binding: ListItemBinding): RecyclerView.ViewHolde
         binding.title.text = "data: ${item.content} at position $absoluteAdapterPosition"
 
         binding.cta.setOnClickListener {
-            listener.delete(absoluteAdapterPosition)
+            listener.delete(layoutPosition)
         }
     }
-
 }
