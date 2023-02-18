@@ -25,7 +25,7 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
 
         val listener = object : ItemDeleteListener {
             override fun delete(position: Int) {
-                Log.d("ClassicRvAdapter", "removing item at - $position")
+                Log.d(tag, "removing item at - $position")
                 val newItems = mutableListOf<DummyData>()
                 newItems.addAll(items)
                 newItems.removeAt(position)
@@ -33,6 +33,7 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
                 items.addAll(newItems)
                 notifyItemRemoved(position)
                 val itemChangedCount = items.size - position
+                Log.d(tag, "rerendering $itemChangedCount items")
                 notifyItemRangeChanged(position, itemChangedCount)
             }
         }
@@ -55,12 +56,6 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         items.clear()
         items.addAll(newItems)
         notifyItemInserted(randomIndex)
-        /*
-        Trigger onBindViewHolder for X number of items in the list
-        X needs to be larger the number of items visible on screen
-        When it's in the order of hundreds, ANRs happen with quick adds
-         */
-        val numToReRender = 9
-        notifyItemRangeChanged(randomIndex, numToReRender)
+        notifyItemRangeChanged(randomIndex, changedCount)
     }
 }

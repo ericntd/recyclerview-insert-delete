@@ -17,19 +17,19 @@ class MainActivity : AppCompatActivity() {
     private val adapter by lazy {
         ClassicRvAdapter()
     }
+    private val numItems = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         findViewById<RecyclerView>(R.id.list).adapter = adapter
 
-        val max = 5
-        val data = (0..max).map {
+        val data = (0..numItems).map {
             DummyData(it, UUID.randomUUID().toString().replace("-", " "))
         }
         adapter.updateAll(data)
         findViewById<View>(R.id.add).setOnClickListener {
-            val num = max + Random.nextInt(max)
+            val num = numItems + Random.nextInt(numItems)
             adapter.add(DummyData(num, UUID.randomUUID().toString().replace("-", " ")))
         }
     }
