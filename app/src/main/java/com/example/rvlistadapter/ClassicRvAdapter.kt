@@ -32,9 +32,6 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
                 items.clear()
                 items.addAll(newItems)
                 notifyItemRemoved(position)
-                val itemChangedCount = items.size - position
-                Log.d(tag, "rerendering $itemChangedCount items")
-                notifyItemRangeChanged(position, itemChangedCount)
             }
         }
         holder.bind(item, listener)
@@ -50,11 +47,9 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         val newItems = mutableListOf<DummyData>()
         newItems.addAll(items)
         newItems.add(position, dummyData)
-        val changedCount = itemCount - position + 1
         Log.d(tag, "item ${dummyData.content} inserted at position $position")
         items.clear()
         items.addAll(newItems)
         notifyItemInserted(position)
-        notifyItemRangeChanged(position, changedCount)
     }
 }

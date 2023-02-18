@@ -9,11 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rvlistadapter.databinding.ListItemBinding
 import kotlin.random.Random
 
-class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
+class MyListAdapterDiffUtil : RecyclerView.Adapter<MyViewHolder>() {
     private val tag = "MyListAdapterDiffUtil"
     private val items = mutableListOf<DummyData>()
 
-    class MyDiffCallback(private val oldList: List<DummyData>, private val newList: List<DummyData>) : DiffUtil.Callback() {
+    class MyDiffCallback(
+        private val oldList: List<DummyData>,
+        private val newList: List<DummyData>
+    ) : DiffUtil.Callback() {
         override fun getOldListSize() = oldList.size
 
         override fun getNewListSize() = newList.size
@@ -44,11 +47,7 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
                 val newItems = mutableListOf<DummyData>()
                 newItems.addAll(items)
                 newItems.removeAt(position)
-                val changedCount = items.size - position
-                updateAll(ArrayList(newItems))
-                Log.d(tag, "number of item changed position: $changedCount")
-                // Trigger onBindViewHolder for the rest of the items that moved in front
-                 notifyItemRangeChanged(position, changedCount)
+                updateAll(newItems)
             }
         }
         holder.bind(item, listener)
@@ -69,10 +68,6 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
         val newItems = mutableListOf<DummyData>()
         newItems.addAll(items)
         newItems.add(position, dummyData)
-        val changedCount = itemCount - position + 1
-        updateAll(ArrayList(newItems))
-        Log.d(tag, "number of item changed position: $changedCount")
-        // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
-        notifyItemRangeChanged(position, changedCount)
+        updateAll(newItems)
     }
 }
