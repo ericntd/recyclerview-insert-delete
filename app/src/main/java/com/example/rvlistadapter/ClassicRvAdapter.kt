@@ -46,16 +46,15 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun add(dummyData: DummyData) {
+    fun add(dummyData: DummyData, position: Int) {
         val newItems = mutableListOf<DummyData>()
         newItems.addAll(items)
-        val randomIndex = Random.nextInt(itemCount)
-        newItems.add(randomIndex, dummyData)
-        val changedCount = itemCount - randomIndex + 1
-        Log.d(tag, "item ${dummyData.content} inserted at position $randomIndex")
+        newItems.add(position, dummyData)
+        val changedCount = itemCount - position + 1
+        Log.d(tag, "item ${dummyData.content} inserted at position $position")
         items.clear()
         items.addAll(newItems)
-        notifyItemInserted(randomIndex)
-        notifyItemRangeChanged(randomIndex, changedCount)
+        notifyItemInserted(position)
+        notifyItemRangeChanged(position, changedCount)
     }
 }

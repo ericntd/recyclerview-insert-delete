@@ -57,15 +57,14 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
         submitList(newList)
     }
 
-    fun add(dummyData: DummyData) {
+    fun add(dummyData: DummyData, position: Int) {
         val newItems = mutableListOf<DummyData>()
         newItems.addAll(currentList)
-        val randomIndex = Random.nextInt(0, itemCount)
-        newItems.add(randomIndex, dummyData)
-        val changedCount = itemCount - randomIndex + 1
+        newItems.add(position, dummyData)
+        val changedCount = itemCount - position + 1
         submitList(newItems)
-        Log.d(tag, "adding item ${dummyData.content} to position $randomIndex - number of items changed: $changedCount")
+        Log.d(tag, "adding item ${dummyData.content} to position $position - number of items changed: $changedCount")
         // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
-        notifyItemRangeChanged(randomIndex, changedCount)
+        notifyItemRangeChanged(position, changedCount)
     }
 }

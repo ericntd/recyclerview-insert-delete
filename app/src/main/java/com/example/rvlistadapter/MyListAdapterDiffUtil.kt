@@ -65,15 +65,14 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
         diffResult.dispatchUpdatesTo(AdapterListUpdateCallback(this))
     }
 
-    fun add(dummyData: DummyData) {
+    fun add(dummyData: DummyData, position: Int) {
         val newItems = mutableListOf<DummyData>()
         newItems.addAll(items)
-        val randomIndex = Random.nextInt(0, itemCount)
-        newItems.add(randomIndex, dummyData)
-        val changedCount = itemCount - randomIndex + 1
+        newItems.add(position, dummyData)
+        val changedCount = itemCount - position + 1
         updateAll(ArrayList(newItems))
         Log.d(tag, "number of item changed position: $changedCount")
         // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
-        notifyItemRangeChanged(randomIndex, changedCount)
+        notifyItemRangeChanged(position, changedCount)
     }
 }
