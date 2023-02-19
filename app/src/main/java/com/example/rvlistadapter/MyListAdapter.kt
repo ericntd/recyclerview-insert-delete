@@ -40,8 +40,7 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
         val listener = object : ItemDeleteListener {
             override fun delete(position: Int) {
                 Log.d(tag, "removing item at - $position")
-                val newItems = mutableListOf<DummyData>()
-                newItems.addAll(currentList)
+                val newItems = ArrayList(currentList)
                 newItems.removeAt(position)
                 submitList(newItems)
             }
@@ -54,8 +53,7 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
     }
 
     fun add(dummyData: DummyData, position: Int) {
-        val newItems = mutableListOf<DummyData>()
-        newItems.addAll(currentList)
+        val newItems = ArrayList(currentList)
         newItems.add(position, dummyData)
         submitList(newItems)
     }
