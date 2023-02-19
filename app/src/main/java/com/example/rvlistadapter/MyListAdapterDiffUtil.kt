@@ -41,8 +41,7 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
         val listener = object : ItemDeleteListener {
             override fun delete(position: Int) {
                 Log.d(tag, "removing item at - $position")
-                val newItems = mutableListOf<DummyData>()
-                newItems.addAll(items)
+                val newItems = ArrayList(items)
                 newItems.removeAt(position)
                 val changedCount = items.size - position
                 updateAll(ArrayList(newItems))
@@ -66,8 +65,7 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
     }
 
     fun add(dummyData: DummyData, position: Int) {
-        val newItems = mutableListOf<DummyData>()
-        newItems.addAll(items)
+        val newItems = ArrayList(items)
         newItems.add(position, dummyData)
         val changedCount = itemCount - position + 1
         updateAll(ArrayList(newItems))
