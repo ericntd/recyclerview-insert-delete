@@ -2,8 +2,10 @@ package com.example.rvlistadapter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rvlistadapter.databinding.ActivityMainBinding
 import java.util.*
 import kotlin.math.min
 import kotlin.random.Random
@@ -22,12 +24,13 @@ class MainActivity : AppCompatActivity() {
     /**
      * Must be smaller than size of [DB.countries]
      */
-    private val numItems = 3
+    private val numItems = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
 
-        findViewById<RecyclerView>(R.id.list).adapter = adapter
+        binding.list.adapter = adapter
 
         /*
         Initialize list view with numItems random subset of countries
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val end = min(randomStart + numItems, DB.countries.size-1)
         val data = DB.countries.mapIndexed { index: Int, s: String ->
             DummyData(id = index, content = s)
-        }.subList(randomStart, end)
+        }.shuffled().subList(randomStart, end)
         adapter.updateAll(data)
 
         /*
