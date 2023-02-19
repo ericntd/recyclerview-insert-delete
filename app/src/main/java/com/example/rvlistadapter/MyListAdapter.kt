@@ -17,14 +17,9 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
     private val tag = "ListAdapter"
 
     object DiffUtilItemCallback: DiffUtil.ItemCallback<DummyData>() {
-        override fun areItemsTheSame(oldItem: DummyData, newItem: DummyData): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: DummyData, newItem: DummyData) = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: DummyData, newItem: DummyData): Boolean {
-            return oldItem == newItem
-        }
-
+        override fun areContentsTheSame(oldItem: DummyData, newItem: DummyData) = oldItem == newItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -43,10 +38,11 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
                 val newItems = ArrayList(currentList)
                 newItems.removeAt(position)
                 val changedCount = itemCount - position
-                submitList(newItems)
-                Log.d(tag, "number of item changed position: $changedCount")
-                // Trigger onBindViewHolder for the rest of the items that moved in front
-                 notifyItemRangeChanged(position, changedCount)
+                submitList(newItems) {
+                    Log.d(tag, "number of item changed position: $changedCount")
+                    // Trigger onBindViewHolder for the rest of the items that moved in front
+                    notifyItemRangeChanged(position, changedCount)
+                }
             }
         }
         holder.bind(item, listener)
@@ -60,9 +56,13 @@ class MyListAdapter: ListAdapter<DummyData, MyViewHolder>(DiffUtilItemCallback) 
         val newItems = ArrayList(currentList)
         newItems.add(position, dummyData)
         val changedCount = itemCount - position + 1
-        submitList(newItems)
-        Log.d(tag, "adding item ${dummyData.content} to position $position - number of items changed: $changedCount")
-        // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
-        notifyItemRangeChanged(position, changedCount)
+        submitList(newItems) {
+            Log.d(
+                tag,
+                "adding item ${dummyData.content} to position $position - number of items changed: $changedCount"
+            )
+            // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
+            notifyItemRangeChanged(position, changedCount)
+        }
     }
 }
