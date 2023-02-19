@@ -18,13 +18,9 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
 
         override fun getNewListSize() = newList.size
 
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
-        }
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition].id == newList[newItemPosition].id
 
-        override fun areContentsTheSame(oldCourse: Int, newPosition: Int): Boolean {
-            return oldList[oldCourse] == newList[newPosition]
-        }
+        override fun areContentsTheSame(oldCourse: Int, newPosition: Int) = oldList[oldCourse] == newList[newPosition]
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -44,7 +40,7 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
                 val newItems = ArrayList(items)
                 newItems.removeAt(position)
                 val changedCount = items.size - position
-                updateAll(ArrayList(newItems))
+                updateAll(newItems)
                 Log.d(tag, "number of item changed position: $changedCount")
                 // Trigger onBindViewHolder for the rest of the items that moved in front
                  notifyItemRangeChanged(position, changedCount)
@@ -68,7 +64,7 @@ class MyListAdapterDiffUtil: RecyclerView.Adapter<MyViewHolder>() {
         val newItems = ArrayList(items)
         newItems.add(position, dummyData)
         val changedCount = itemCount - position + 1
-        updateAll(ArrayList(newItems))
+        updateAll(newItems)
         Log.d(tag, "number of item changed position: $changedCount")
         // Trigger onBindViewHolder for the rest of the items that moved to the end of the list
         notifyItemRangeChanged(position, changedCount)
