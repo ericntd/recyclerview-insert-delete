@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             }
             adapter.add(
                 DummyData(
-                    id = numItems + Random.nextInt(numItems),
+                    id = Random.nextInt(adapter.itemCount, Int.MAX_VALUE),
                     UUID.randomUUID().toString().replace("-", " ")
                 ),
                 position = randomIndex
