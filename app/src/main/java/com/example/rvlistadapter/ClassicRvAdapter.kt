@@ -26,17 +26,22 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         val listener = object : ItemDeleteListener {
             override fun delete(position: Int) {
                 Log.d(tag, "removing item at - $position")
-                val newItems = ArrayList(items)
-                newItems.removeAt(position)
-                items.clear()
-                items.addAll(newItems)
-                notifyItemRemoved(position)
-                val itemChangedCount = items.size - position
-                Log.d(tag, "rerendering $itemChangedCount items")
-                notifyItemRangeChanged(position, itemChangedCount)
+                removeAt(position)
             }
         }
         holder.bind(item, listener)
+    }
+
+    private fun removeAt(position: Int) {
+        val newItems = ArrayList(items)
+        newItems.removeAt(position)
+//                items.clear()
+//                items.addAll(newItems)
+        items.removeAt(position)
+        notifyItemRemoved(position)
+        val itemChangedCount = items.size - position
+        Log.d(tag, "rerendering $itemChangedCount items")
+        notifyItemRangeChanged(position, itemCount)
     }
 
     fun updateAll(arrayList: List<DummyData>) {
@@ -50,8 +55,9 @@ class ClassicRvAdapter: RecyclerView.Adapter<MyViewHolder>() {
         newItems.add(position, dummyData)
         val changedCount = itemCount - position + 1
         Log.d(tag, "item ${dummyData.content} inserted at position $position")
-        items.clear()
-        items.addAll(newItems)
+//        items.clear()
+//        items.addAll(newItems)
+        items.add(position, dummyData)
         notifyItemInserted(position)
         notifyItemRangeChanged(position, changedCount)
     }
